@@ -355,7 +355,7 @@ class DoujinDesu : ParsedHttpSource() {
         manga.author = document.select("section.metadata > table:nth-child(2) > tbody > tr.pages > td:contains(Author) + td:nth-child(2) > a").joinToString { it.text() }
         manga.genre = infoElement.select("div.tags > a").joinToString { it.text() }
         manga.status = parseStatus(document.select("section.metadata > table:nth-child(2) > tbody > tr:nth-child(1) > td:nth-child(2) > a").first()!!.text())
-        manga.thumbnail_url = document.select("figure.thumbnail > img").attr("src")
+        manga.thumbnail_url = document.select("figure.thumbnail > a > img").attr("src")
         manga.artist = document.select("section.metadata > table:nth-child(2) > tbody > tr.pages > td:contains(Character) + td:nth-child(2) > a").joinToString { it.text() }
 
         return manga
@@ -383,7 +383,7 @@ class DoujinDesu : ParsedHttpSource() {
     override fun imageUrlParse(document: Document): String = throw UnsupportedOperationException("Not Used")
 
     override fun pageListParse(document: Document): List<Page> {
-        return document.select("#reader > div.main > div > img").mapIndexed { i, element ->
+        return document.select("#reader > div.main > div > #anu > img").mapIndexed { i, element ->
             Page(i, "", element.attr("src"))
         }
     }
